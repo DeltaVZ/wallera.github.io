@@ -19,8 +19,9 @@
   <meta name="twitter:description" content="Il cinema autentico per disadattati. Biglietti gratuiti." />
   <meta name="twitter:image" content="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
   <link rel="image_src" href="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
-  <link rel="preload" as="audio" href="./o-wallera-d-oro.mp3" type="audio/mpeg">
 
+  <!-- Preload (usa il nome senza spazi; se non esiste, ignora) -->
+  <link rel="preload" as="audio" href="./o-wallera-d-oro.mp3" type="audio/mpeg">
 
   <style>
     :root{
@@ -75,13 +76,29 @@
     .modal-card .close{margin-top:12px}
     .spin{display:inline-block;width:42px;height:42px;margin-bottom:12px;animation:spin 1.4s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Badge audio */
+    .audio-badge{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background:linear-gradient(135deg,var(--gold),var(--gold-700));
+      color:#1a1a1a; font-weight:900; border:none; border-radius:999px;
+      padding:10px 16px; box-shadow:0 8px 24px rgba(0,0,0,.15);
+      cursor:pointer; z-index:10000;
+    }
+    .audio-badge.hidden{ display:none; }
   </style>
 </head>
 <body>
-  <!-- AUDIO servito da GitHub Pages (stesso folder dell'index) -->
-<audio id="anthem" preload="auto" playsinline>
-  <source src="./o-wallera-d-oro.mp3" type="audio/mpeg">
-</audio>
+  <!-- AUDIO servito da GitHub Pages (root repo) -->
+  <audio id="anthem" preload="auto" playsinline>
+    <!-- prova prima con il nome rinominato -->
+    <source src="./o-wallera-d-oro.mp3" type="audio/mpeg">
+    <!-- fallback: nome originale con spazi/apostrofo encodati -->
+    <source src="./O%20wallera%20d%27oro.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Badge per abilitare audio -->
+  <button id="audio-badge" class="audio-badge" type="button" aria-live="polite">🔊 Tocca per abilitare l’audio</button>
 
   <header>
     <div class="container nav">
@@ -131,11 +148,11 @@
             <li><b>Dress code</b>: formale oppure sacco di iuta (dettagli bizzarri benvenuti)</li>
           </ul>
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-            <a class="btn btn--gold" href="mailto:info@wallera.eu?subject=Prenotazione%20Biglietto%20Gratuito%20–%20Festival%20Wallera&amp;body=Nome%3A%20%0ACognome%3A%20%0AEmail%3A%20%0AQt%C3%A0%20biglietti%3A%201%0ANote%3A%20">Prenota via email</a>
+            <a class="btn btn--gold" href="#presentazione">Prenota via email</a>
             <a class="btn btn--ghost" href="#presentazione">Dettagli evento</a>
           </div>
         </div>
-        <form class="card" action="mailto:info@wallera.eu" method="post" enctype="text/plain">
+        <form class="card" action="#" method="post">
           <h3 style="margin-top:0">Prenota ora (form rapido)</h3>
           <label>Nome e cognome<br><input name="Nome" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
           <label>Email<br><input type="email" name="Email" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
@@ -214,7 +231,7 @@
 
   <footer>
     <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
-      <p class="note">©️<span id="year"></span> Festival del Cinema Internazionale della Wallera</p>
+      <p class="note">© <span id="year"></span> Festival del Cinema Internazionale della Wallera</p>
     </div>
   </footer>
 
@@ -313,83 +330,89 @@
   <script>
     // anno footer
     document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 
-<script>
-// AUDIO: parte al primo gesto (tap/click) con fade-in
-(function () {
-  const anthem = document.getElementById('anthem');
-  if (!anthem) return;
+  <script>
+  // AUDIO: parte al primo gesto (tap/click) con fade-in + badge
+  (function () {
+    const anthem = document.getElementById('anthem');
+    const badge  = document.getElementById('audio-badge');
+    if (!anthem) return;
 
-  anthem.volume = 0;
+    anthem.volume = 0;
 
-  async function startAudio() {
-    try {
-      await anthem.play();              // siamo in gesture → consentito
-      // fade-in
-      let v = 0;
-      const iv = setInterval(() => {
-        v = Math.min(1, v + 0.06);
-        anthem.volume = v;
-        if (v >= 1) clearInterval(iv);
-      }, 120);
-    } catch (err) {
-      console.debug('Play bloccato:', err);
+    async function startAudio() {
+      try {
+        await anthem.play(); // siamo in gesture → consentito
+        // fade-in
+        let v = 0;
+        const iv = setInterval(() => {
+          v = Math.min(1, v + 0.06);
+          anthem.volume = v;
+          if (v >= 1) clearInterval(iv);
+        }, 120);
+        // nasconde il badge
+        if (badge) badge.classList.add('hidden');
+      } catch (err) {
+        console.debug('Play bloccato:', err);
+      }
     }
-  }
 
-  // Parte al PRIMO gesto ovunque nella pagina
-  const unlock = () => { startAudio(); document.removeEventListener('pointerdown', unlock); };
-  document.addEventListener('pointerdown', unlock, { once: true });
+    // badge cliccabile
+    if (badge) {
+      badge.addEventListener('click', startAudio, { passive:true });
+    }
 
-  // Espone una funzione globale così i bottoni possono forzarlo
-  window.ensureWalleraAudio = startAudio;
-})();
-</script>
+    // Sblocca al primo gesto ovunque nella pagina
+    const unlock = () => { startAudio(); document.removeEventListener('pointerdown', unlock); };
+    document.addEventListener('pointerdown', unlock, { once: true });
 
-    // Popup rotante per tutti i bottoni/link .btn e per i form submit
-    (function () {
-      const phrases = [
-        "Mammta",
-        "Fozza Napule",
-        "Mannacc'a Maradona",
-        "Maronn, par'a wallera"
-      ];
-      let i = 0;
-      const modal = document.getElementById('popup');
-      const text = document.getElementById('popup-text');
+    // Espone per i bottoni/popup
+    window.ensureWalleraAudio = startAudio;
 
-      function openModal() {
-        text.textContent = phrases[i % phrases.length];
-        i++;
-        modal.classList.add('open');
-        modal.setAttribute('aria-hidden', 'false');
-        // evento per sbloccare l'audio
-        document.dispatchEvent(new Event('popup-open'));
-      }
-      function closeModal() {
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden', 'true');
-      }
+    // Se l'audio è già partito da qualche evento, nascondi il badge
+    anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
+  })();
+  </script>
 
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.classList.contains('close')) closeModal();
-      });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  <script>
+  // Popup rotante + intercetta tutti i bottoni/link .btn e i submit
+  (function () {
+    const phrases = [
+      "Mammta",
+      "Fozza Napule",
+      "Mannacc'a Maradona",
+      "Maronn, par'a wallera"
+    ];
+    let i = 0;
+    const modal = document.getElementById('popup');
+    const text  = document.getElementById('popup-text');
 
-      // Intercetta tutti i bottoni/link .btn
-document.addEventListener('click', (e) => {
-  const el = e.target.closest('.btn');
-  if (el) {
-    e.preventDefault();
-    e.stopPropagation();
-    // sblocca l'audio direttamente sul gesto dell'utente
-    if (window.ensureWalleraAudio) window.ensureWalleraAudio();
-    openModal();
-  }
-});
-      // Intercetta submit dei form
-      document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
-    })();
+    function openModal() {
+      text.textContent = phrases[i % phrases.length];
+      i++;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      // avvia audio sul gesto
+      if (window.ensureWalleraAudio) window.ensureWalleraAudio();
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.classList.contains('close')) closeModal();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('.btn');
+      if (el) { e.preventDefault(); e.stopPropagation(); openModal(); }
+    });
+
+    document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
+  })();
   </script>
 </body>
 </html>
