@@ -21,7 +21,7 @@
   <link rel="image_src" href="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
 
   <!-- Preload (usa il nome senza spazi; se non esiste, ignora) -->
-  <link rel="preload" as="audio" href="./o-wallera-d-oro.mp3" type="audio/mpeg">
+  <link rel="preload" as="audio" href="/o-wallera-d-oro.mp3" type="audio/mpeg">
 
   <style>
     :root{
@@ -90,13 +90,13 @@
 </head>
 <body>
   <!-- AUDIO: autoplay muto (consentito), poi lo smutiamo al primo gesto -->
-<link rel="preload" as="audio" href="/o-wallera-d-oro.mp3" type="audio/mpeg">
 <audio id="anthem" preload="auto" autoplay muted loop playsinline>
   <source src="/o-wallera-d-oro.mp3" type="audio/mpeg">
 </audio>
 
-  <!-- Badge per abilitare audio -->
-  <button id="audio-badge" class="audio-badge" type="button" aria-live="polite">🔊 Tocca per abilitare l’audio</button>
+<button id="audio-badge" class="audio-badge" type="button" aria-live="polite">
+  🔊 Tocca per abilitare l’audio
+</button>
 
   <header>
     <div class="container nav">
@@ -325,15 +325,13 @@
     </div>
   </div>
 
-  <script>
-    // anno footer
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-
-  <script>
  <script>
-  // AUDIO: l'elemento parte in autoplay ma MUTED (consentito).
-  // Al primo gesto togliamo muted + (se serve) chiamiamo play() e facciamo fade-in.
+  // anno footer
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script>
+  // AUDIO: autoplay MUTED (consentito), poi unmute + fade-in al primo gesto
   (function () {
     const anthem = document.getElementById('anthem');
     const badge  = document.getElementById('audio-badge');
@@ -351,8 +349,8 @@
 
     async function startAudio() {
       try {
-        anthem.muted = false;           // <— lo “smutiamo”
-        if (anthem.paused) await anthem.play();  // se per qualche ragione è in pausa, riparti
+        anthem.muted = false;
+        if (anthem.paused) await anthem.play();
         if (badge) badge.classList.add('hidden');
         fadeIn();
       } catch (err) {
@@ -360,24 +358,18 @@
       }
     }
 
-    // badge cliccabile (vedi sezione 3 qui sotto)
     if (badge) badge.addEventListener('click', startAudio, { passive:true });
-
-    // sblocca al primo gesto ovunque
     const unlock = () => { startAudio(); document.removeEventListener('pointerdown', unlock); };
-    document.addEventListener('pointerdown', unlock, { once: true });
+    document.addEventListener('pointerdown', unlock, { once:true });
 
-    // esponi per i bottoni/popup
-    window.ensureWalleraAudio = startAudio;
-
-    // se inizia a suonare (perché l'utente ha già cliccato altrove), nascondi badge
+    window.ensureWalleraAudio = startAudio; // per altri handler
     anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
   })();
 </script>
 
-
     // badge cliccabile
-    if (badge) {
+  <script>  
+  if (badge) {
       badge.addEventListener('click', startAudio, { passive:true });
     }
 
@@ -394,14 +386,8 @@
   </script>
 
   <script>
-  // Popup rotante + intercetta tutti i bottoni/link .btn e i submit
   (function () {
-    const phrases = [
-      "Mammta",
-      "Fozza Napule",
-      "Mannacc'a Maradona",
-      "Maronn, par'a wallera"
-    ];
+    const phrases = ["Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera"];
     let i = 0;
     const modal = document.getElementById('popup');
     const text  = document.getElementById('popup-text');
@@ -411,8 +397,7 @@
       i++;
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
-      // avvia audio sul gesto
-      if (window.ensureWalleraAudio) window.ensureWalleraAudio();
+      if (window.ensureWalleraAudio) window.ensureWalleraAudio(); // sblocca audio
     }
     function closeModal() {
       modal.classList.remove('open');
@@ -428,9 +413,9 @@
       const el = e.target.closest('.btn');
       if (el) { e.preventDefault(); e.stopPropagation(); openModal(); }
     });
-
     document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
   })();
-  </script>
+</script>
+
 </body>
 </html>
