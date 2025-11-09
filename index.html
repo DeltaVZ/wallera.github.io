@@ -19,6 +19,8 @@
   <meta name="twitter:description" content="Il cinema autentico per disadattati. Biglietti gratuiti." />
   <meta name="twitter:image" content="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
   <link rel="image_src" href="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
+  <link rel="preload" as="audio" href="./o-wallera-d-oro.mp3" type="audio/mpeg">
+
 
   <style>
     :root{
@@ -76,8 +78,10 @@
   </style>
 </head>
 <body>
-  <!-- AUDIO: carica al primo click/tap per evitare blocchi autoplay -->
-  <audio id="anthem" preload="none"></audio>
+  <!-- AUDIO servito da GitHub Pages (stesso folder dell'index) -->
+<audio id="anthem" preload="auto" playsinline>
+  <source src="./o-wallera-d-oro.mp3" type="audio/mpeg">
+</audio>
 
   <header>
     <div class="container nav">
@@ -310,37 +314,37 @@
     // anno footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // AUDIO: carica e suona al primo gesto, con fade-in
-    (function () {
-      const anthem = document.getElementById('anthem');
-      const SRC = "https://drive.usercontent.google.com/uc?id=1Ux5e34uux3o2p_AhlfV4est8inK74r1X&export=download";
-      let armed = true;
+<script>
+// AUDIO: parte al primo gesto (tap/click) con fade-in
+(function () {
+  const anthem = document.getElementById('anthem');
+  if (!anthem) return;
 
-      async function ensurePlay() {
-          window.ensureWalleraAudio = ensurePlay;
-        if (!armed) return;
-        armed = false;
-        try {
-          anthem.src = SRC;          // assegna la sorgente solo ora
-          anthem.volume = 0;         // parte muto
-          await anthem.play();       // tenta play (ora c'è interazione)
-          // fade-in volume
-          const step = 0.05;
-          const iv = setInterval(()=>{
-            anthem.volume = Math.min(1, anthem.volume + step);
-            if (anthem.volume >= 1) clearInterval(iv);
-          }, 120);
-        } catch(e) {
-          armed = true;              // riproverà al prossimo click
-        }
-      }
+  anthem.volume = 0;
 
-      // Sblocca al primo click/tap o quando si apre il popup
-      const unlock = () => ensurePlay();
-      window.addEventListener('click', unlock, { once:true });
-      window.addEventListener('touchstart', unlock, { once:true });
-      document.addEventListener('popup-open', unlock, { once:true });
-    })();
+  async function startAudio() {
+    try {
+      await anthem.play();              // siamo in gesture → consentito
+      // fade-in
+      let v = 0;
+      const iv = setInterval(() => {
+        v = Math.min(1, v + 0.06);
+        anthem.volume = v;
+        if (v >= 1) clearInterval(iv);
+      }, 120);
+    } catch (err) {
+      console.debug('Play bloccato:', err);
+    }
+  }
+
+  // Parte al PRIMO gesto ovunque nella pagina
+  const unlock = () => { startAudio(); document.removeEventListener('pointerdown', unlock); };
+  document.addEventListener('pointerdown', unlock, { once: true });
+
+  // Espone una funzione globale così i bottoni possono forzarlo
+  window.ensureWalleraAudio = startAudio;
+})();
+</script>
 
     // Popup rotante per tutti i bottoni/link .btn e per i form submit
     (function () {
