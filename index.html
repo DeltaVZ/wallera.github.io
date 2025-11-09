@@ -310,67 +310,71 @@
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
-  <script>
-    // AUDIO: unmute + fade-in al primo gesto/badge
-    (function () {
-      const anthem = document.getElementById('anthem');
-      const badge  = document.getElementById('audio-badge');
-      if (!anthem) return;
+<script>
+  // AUDIO: autoplay MUTED, unmute + fade-in al primo gesto o click sul badge
+  (function () {
+    const anthem = document.getElementById('anthem');
+    const badge  = document.getElementById('audio-badge');
+    if (!anthem) return;
 
-      function fadeIn(){
-        try { anthem.volume = 0; } catch(e){}
-        let v = 0;
-        const iv = setInterval(() => {
-          v = Math.min(1, v + 0.06);
-          try { anthem.volume = v; } catch(e){}
-          if (v >= 1) clearInterval(iv);
-        }, 120);
-      }
+    function fadeIn(){
+      try { anthem.volume = 0; } catch(e){}
+      let v = 0;
+      const iv = setInterval(() => {
+        v = Math.min(1, v + 0.06);
+        try { anthem.volume = v; } catch(e){}
+        if (v >= 1) clearInterval(iv);
+      }, 120);
+    }
 
-      async function startAudio(){
-        try {
-          anthem.muted = false;
-          if (anthem.paused) await anthem.play();
-          if (badge) badge.classList.add('hidden');
-          fadeIn();
-        } catch(e){ console.debug('Play bloccato:', e); }
-      }
+    async function startAudio(){
+      try {
+        anthem.muted = false;
+        if (anthem.paused) await anthem.play();
+        if (badge) badge.classList.add('hidden');
+        fadeIn();
+      } catch(e){ console.debug('Play bloccato:', e); }
+    }
 
-      if (badge) badge.addEventListener('click', startAudio, { passive:true });
-      document.addEventListener('pointerdown', () => startAudio(), { once:true });
-      window.ensureWalleraAudio = startAudio;
-      anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
-    })();
-  </script>
+    if (badge) badge.addEventListener('click', startAudio, { passive:true });
+    document.addEventListener('pointerdown', () => startAudio(), { once:true });
 
-  <script>
-    // Popup + intercetta tutti i .btn e i submit
-    (function () {
-      const phrases = ["Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera"];
-      let i = 0;
-      const modal = document.getElementById('popup');
-      const text  = document.getElementById('popup-text');
+    // esponi per altri handler (es. popup)
+    window.ensureWalleraAudio = startAudio;
 
-      function openModal(){
-        text.textContent = phrases[i % phrases.length]; i++;
-        modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
-        if (window.ensureWalleraAudio) window.ensureWalleraAudio();
-      }
-      function closeModal(){
-        modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
-      }
+    anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
+  })();
+</script>
 
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.classList.contains('close')) closeModal();
-      });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+<script>
+  // POPUP + intercetta .btn e submit
+  (function () {
+    const phrases = ["Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera"];
+    let i = 0;
+    const modal = document.getElementById('popup');
+    const text  = document.getElementById('popup-text');
 
-      document.addEventListener('click', (e) => {
-        const el = e.target.closest('.btn');
-        if (el){ e.preventDefault(); e.stopPropagation(); openModal(); }
-      });
-      document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
-    })();
-  </script>
+    function openModal(){
+      text.textContent = phrases[i % phrases.length]; i++;
+      modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+      if (window.ensureWalleraAudio) window.ensureWalleraAudio(); // sblocca audio
+    }
+    function closeModal(){
+      modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.classList.contains('close')) closeModal();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('.btn');
+      if (el){ e.preventDefault(); e.stopPropagation(); openModal(); }
+    });
+    document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
+  })();
+</script>
+
 </body>
 </html>
