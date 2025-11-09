@@ -4,30 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- SEO -->
   <title>Primo Festival del Cinema Internazionale della Wallera – Roma | 15 novembre 2025</title>
   <meta name="description" content="Il cinema autentico per disadattati. Corti surreali, ironia grottesca e culto segreto della Wallera. Roma, Via Maria Bice Valori 10 int. C2 – 15 novembre 2025. Biglietti gratuiti." />
 
-  <!-- Open Graph / Twitter (locandina come anteprima) -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Primo Festival della Wallera – 15 novembre 2025 (Roma)" />
   <meta property="og:description" content="Corti surreali, grottesco e nonsense. Biglietti gratuiti. Join the Wallera." />
-  <meta property="og:image" content="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
+  <meta property="og:image" content="https://drive.google.com/uc?export=view&id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
   <meta property="og:image:alt" content="Locandina 'Join the Wallera' – Primo Festival del Cinema Internazionale della Wallera" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Primo Festival della Wallera – Roma | 15.11.2025" />
   <meta name="twitter:description" content="Il cinema autentico per disadattati. Biglietti gratuiti." />
-  <meta name="twitter:image" content="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
-  <link rel="image_src" href="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
+  <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
+  <link rel="image_src" href="https://drive.google.com/uc?export=view&id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
 
-  <!-- Preload (usa il nome senza spazi; se non esiste, ignora) -->
+  <!-- Preload audio servito da GitHub Pages -->
   <link rel="preload" as="audio" href="/o-wallera-d-oro.mp3" type="audio/mpeg">
 
   <style>
-    :root{
-      --gold:#D4AF37; --gold-700:#B9931F; --azure:#2EA9DF; --azure-700:#1C84B0; --azure-50:#E9F6FD; --ink:#0F172A;
-      --muted:#475569; --bg:#ffffff; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.08)
-    }
+    :root{--gold:#D4AF37;--gold-700:#B9931F;--azure:#2EA9DF;--azure-700:#1C84B0;--azure-50:#E9F6FD;--ink:#0F172A;--muted:#475569;--bg:#fff;--radius:18px;--shadow:0 10px 30px rgba(0,0,0,.08)}
     *,*::before,*::after{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;color:var(--ink);background:var(--bg);line-height:1.6}
     a{color:inherit;text-decoration:none}
@@ -48,49 +44,33 @@
     .subtitle{font-size:clamp(18px,2vw,22px);color:var(--muted)}
     .blob{position:absolute;inset:-10% -20% auto auto;width:60vmin;height:60vmin;filter:blur(18px);opacity:.55;background:
       radial-gradient(30% 30% at 30% 30%, var(--azure), transparent 70%),
-      radial-gradient(30% 30% at 70% 70%, rgba(212,175,55,.9), transparent 65%);
-      border-radius:40px;z-index:-1}
+      radial-gradient(30% 30% at 70% 70%, rgba(212,175,55,.9), transparent 65%);border-radius:40px;z-index:-1}
     .section{padding:72px 0}
     .card{background:#fff;border:1px solid #e9edf4;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
     .grid{display:grid;gap:24px}
     .about .grid{grid-template-columns:1.2fr .8fr}
-    .organizers{display:grid;gap:16px;grid-template-columns:repeat(3,1fr)}
-    .avatar{display:grid;place-items:center;height:104px;border-radius:14px;background:linear-gradient(135deg,var(--azure),var(--azure-700));color:#fff;font-size:28px;font-weight:900}
     .tag{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--azure-50);color:var(--azure-700);font-weight:700;border:1px solid #d9eef9}
-    .note{color:var(--muted)}
-    .list{margin:0;padding-left:18px}
-    /* Tickets */
-    .tickets .grid{grid-template-columns:1fr 1fr}
     .price-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,var(--gold),var(--gold-700));color:#1a1a1a;font-weight:900}
     footer{padding:36px 0;border-top:1px solid #eef2f7}
-    @media (max-width: 980px){
-      .hero .wrap,.about .grid,.tickets .grid{grid-template-columns:1fr}
-      .organizers{grid-template-columns:1fr}
-    }
+    @media (max-width:980px){.hero .wrap,.about .grid,.tickets .grid{grid-template-columns:1fr}}
 
-    /* Modal popup + animazione */
+    /* Modal */
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:9999}
     .modal.open{display:flex}
     .modal-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:28px 32px;max-width:440px;margin:16px;border:1px solid #e9edf4;text-align:center}
-    .modal-card h3{margin:0 0 6px 0}
-    .modal-card .close{margin-top:12px}
     .spin{display:inline-block;width:42px;height:42px;margin-bottom:12px;animation:spin 1.4s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
 
     /* Badge audio */
-    .audio-badge{
-      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
-      background:linear-gradient(135deg,var(--gold),var(--gold-700));
-      color:#1a1a1a; font-weight:900; border:none; border-radius:999px;
-      padding:10px 16px; box-shadow:0 8px 24px rgba(0,0,0,.15);
-      cursor:pointer; z-index:10000;
-    }
-    .audio-badge.hidden{ display:none; }
+    .audio-badge{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      background:linear-gradient(135deg,var(--gold),var(--gold-700));color:#1a1a1a;font-weight:900;border:none;border-radius:999px;
+      padding:10px 16px;box-shadow:0 8px 24px rgba(0,0,0,.15);cursor:pointer;z-index:10000}
+    .audio-badge.hidden{display:none}
   </style>
 </head>
 <body>
-  <!-- AUDIO: autoplay muto (consentito), poi lo smutiamo al primo gesto -->
-<audio id="anthem" preload="auto" autoplay muted loop playsinline>
+  <!-- AUDIO: autoplay muto; si sblocca al primo gesto -->
+  <audio id="anthem" preload="auto" autoplay muted loop playsinline>
   <source src="/o-wallera-d-oro.mp3" type="audio/mpeg">
 </audio>
 
@@ -312,7 +292,7 @@
 </pre>
   </template>
 
-  <!-- Modal -->
+  <!-- Popup -->
   <div id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popup-title" aria-hidden="true">
     <div class="modal-card">
       <svg class="spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -325,97 +305,72 @@
     </div>
   </div>
 
- <script>
-  // anno footer
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-<script>
-  // AUDIO: autoplay MUTED (consentito), poi unmute + fade-in al primo gesto
-  (function () {
-    const anthem = document.getElementById('anthem');
-    const badge  = document.getElementById('audio-badge');
-    if (!anthem) return;
-
-    function fadeIn() {
-      try { anthem.volume = 0; } catch(e) {}
-      let v = 0;
-      const iv = setInterval(() => {
-        v = Math.min(1, v + 0.06);
-        try { anthem.volume = v; } catch(e) {}
-        if (v >= 1) clearInterval(iv);
-      }, 120);
-    }
-
-    async function startAudio() {
-      try {
-        anthem.muted = false;
-        if (anthem.paused) await anthem.play();
-        if (badge) badge.classList.add('hidden');
-        fadeIn();
-      } catch (err) {
-        console.debug('Play bloccato:', err);
-      }
-    }
-
-    if (badge) badge.addEventListener('click', startAudio, { passive:true });
-    const unlock = () => { startAudio(); document.removeEventListener('pointerdown', unlock); };
-    document.addEventListener('pointerdown', unlock, { once:true });
-
-    window.ensureWalleraAudio = startAudio; // per altri handler
-    anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
-  })();
-</script>
-
-    // badge cliccabile
-  <script>  
-  if (badge) {
-      badge.addEventListener('click', startAudio, { passive:true });
-    }
-
-    // Sblocca al primo gesto ovunque nella pagina
-    const unlock = () => { startAudio(); document.removeEventListener('pointerdown', unlock); };
-    document.addEventListener('pointerdown', unlock, { once: true });
-
-    // Espone per i bottoni/popup
-    window.ensureWalleraAudio = startAudio;
-
-    // Se l'audio è già partito da qualche evento, nascondi il badge
-    anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
-  })();
+  <script>
+    // anno footer
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
   <script>
-  (function () {
-    const phrases = ["Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera"];
-    let i = 0;
-    const modal = document.getElementById('popup');
-    const text  = document.getElementById('popup-text');
+    // AUDIO: unmute + fade-in al primo gesto/badge
+    (function () {
+      const anthem = document.getElementById('anthem');
+      const badge  = document.getElementById('audio-badge');
+      if (!anthem) return;
 
-    function openModal() {
-      text.textContent = phrases[i % phrases.length];
-      i++;
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
-      if (window.ensureWalleraAudio) window.ensureWalleraAudio(); // sblocca audio
-    }
-    function closeModal() {
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-    }
+      function fadeIn(){
+        try { anthem.volume = 0; } catch(e){}
+        let v = 0;
+        const iv = setInterval(() => {
+          v = Math.min(1, v + 0.06);
+          try { anthem.volume = v; } catch(e){}
+          if (v >= 1) clearInterval(iv);
+        }, 120);
+      }
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal || e.target.classList.contains('close')) closeModal();
-    });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+      async function startAudio(){
+        try {
+          anthem.muted = false;
+          if (anthem.paused) await anthem.play();
+          if (badge) badge.classList.add('hidden');
+          fadeIn();
+        } catch(e){ console.debug('Play bloccato:', e); }
+      }
 
-    document.addEventListener('click', (e) => {
-      const el = e.target.closest('.btn');
-      if (el) { e.preventDefault(); e.stopPropagation(); openModal(); }
-    });
-    document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
-  })();
-</script>
+      if (badge) badge.addEventListener('click', startAudio, { passive:true });
+      document.addEventListener('pointerdown', () => startAudio(), { once:true });
+      window.ensureWalleraAudio = startAudio;
+      anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
+    })();
+  </script>
 
+  <script>
+    // Popup + intercetta tutti i .btn e i submit
+    (function () {
+      const phrases = ["Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera"];
+      let i = 0;
+      const modal = document.getElementById('popup');
+      const text  = document.getElementById('popup-text');
+
+      function openModal(){
+        text.textContent = phrases[i % phrases.length]; i++;
+        modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+        if (window.ensureWalleraAudio) window.ensureWalleraAudio();
+      }
+      function closeModal(){
+        modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+      }
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('close')) closeModal();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+      document.addEventListener('click', (e) => {
+        const el = e.target.closest('.btn');
+        if (el){ e.preventDefault(); e.stopPropagation(); openModal(); }
+      });
+      document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
+    })();
+  </script>
 </body>
 </html>
