@@ -89,13 +89,11 @@
   </style>
 </head>
 <body>
-  <!-- AUDIO servito da GitHub Pages (root repo) -->
-  <audio id="anthem" preload="auto" playsinline>
-    <!-- prova prima con il nome rinominato -->
-    <!source src="./o-wallera-d-oro.mp3" type="audio/mpeg">
-    <!-- fallback: nome originale con spazi/apostrofo encodati -->
-    <source src="./O%20wallera%20d%27oro.mp3" type="audio/mpeg">
-  </audio>
+  <!-- AUDIO: autoplay muto (consentito), poi lo smutiamo al primo gesto -->
+<link rel="preload" as="audio" href="/o-wallera-d-oro.mp3" type="audio/mpeg">
+<audio id="anthem" preload="auto" autoplay muted loop playsinline>
+  <source src="/o-wallera-d-oro.mp3" type="audio/mpeg">
+</audio>
 
   <!-- Badge per abilitare audio -->
   <button id="audio-badge" class="audio-badge" type="button" aria-live="polite">🔊 Tocca per abilitare l’audio</button>
@@ -333,30 +331,50 @@
   </script>
 
   <script>
-  // AUDIO: parte al primo gesto (tap/click) con fade-in + badge
+ <script>
+  // AUDIO: l'elemento parte in autoplay ma MUTED (consentito).
+  // Al primo gesto togliamo muted + (se serve) chiamiamo play() e facciamo fade-in.
   (function () {
     const anthem = document.getElementById('anthem');
     const badge  = document.getElementById('audio-badge');
     if (!anthem) return;
 
-    anthem.volume = 0;
+    function fadeIn() {
+      try { anthem.volume = 0; } catch(e) {}
+      let v = 0;
+      const iv = setInterval(() => {
+        v = Math.min(1, v + 0.06);
+        try { anthem.volume = v; } catch(e) {}
+        if (v >= 1) clearInterval(iv);
+      }, 120);
+    }
 
     async function startAudio() {
       try {
-        await anthem.play(); // siamo in gesture → consentito
-        // fade-in
-        let v = 0;
-        const iv = setInterval(() => {
-          v = Math.min(1, v + 0.06);
-          anthem.volume = v;
-          if (v >= 1) clearInterval(iv);
-        }, 120);
-        // nasconde il badge
+        anthem.muted = false;           // <— lo “smutiamo”
+        if (anthem.paused) await anthem.play();  // se per qualche ragione è in pausa, riparti
         if (badge) badge.classList.add('hidden');
+        fadeIn();
       } catch (err) {
         console.debug('Play bloccato:', err);
       }
     }
+
+    // badge cliccabile (vedi sezione 3 qui sotto)
+    if (badge) badge.addEventListener('click', startAudio, { passive:true });
+
+    // sblocca al primo gesto ovunque
+    const unlock = () => { startAudio(); document.removeEventListener('pointerdown', unlock); };
+    document.addEventListener('pointerdown', unlock, { once: true });
+
+    // esponi per i bottoni/popup
+    window.ensureWalleraAudio = startAudio;
+
+    // se inizia a suonare (perché l'utente ha già cliccato altrove), nascondi badge
+    anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
+  })();
+</script>
+
 
     // badge cliccabile
     if (badge) {
