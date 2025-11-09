@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Festival del Cinema Internazionale della Wallera · Presentazione</title>
+  <meta name="description" content="Pagina di presentazione ufficiale del primo Festival del Cinema Internazionale della Wallera. Ironia, cinema e oro-azzurro-bianco." />
+  <style>
+    :root{
+      --gold:#D4AF37; --gold-700:#B9931F; --azure:#2EA9DF; --azure-700:#1C84B0; --azure-50:#E9F6FD; --ink:#0F172A;
+      --muted:#475569; --bg:#ffffff; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.08)
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;color:var(--ink);background:var(--bg);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1100px,92vw);margin-inline:auto}
+    header{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid #eef2f7;z-index:50}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;gap:12px;align-items:center;font-weight:800}
+    .mark{width:30px;height:30px;border-radius:10px;background:conic-gradient(from 200deg, var(--gold), var(--gold-700));outline:2px solid rgba(212,175,55,.25)}
+    .btn{display:inline-block;padding:12px 18px;border-radius:999px;border:2px solid transparent;font-weight:800;transition:.25s}
+    .btn--gold{background:linear-gradient(135deg,var(--gold),var(--gold-700));color:#1a1a1a;box-shadow:0 6px 18px rgba(212,175,55,.35)}
+    .btn--ghost{border-color:#e8eef5}
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid #eaf2f9}
+    .hero .wrap{padding:64px 0;display:grid;gap:32px;grid-template-columns:1.1fr 1fr;align-items:center}
+    .badge{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;border:1px solid #e8eef5;background:#fff}
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--azure)}
+    .title{font-size:clamp(32px,3.4vw,48px);line-height:1.15;letter-spacing:-.02em}
+    .subtitle{font-size:clamp(18px,2vw,22px);color:var(--muted)}
+    .blob{position:absolute;inset:-10% -20% auto auto;width:60vmin;height:60vmin;filter:blur(18px);opacity:.55;background:
+      radial-gradient(30% 30% at 30% 30%, var(--azure), transparent 70%),
+      radial-gradient(30% 30% at 70% 70%, rgba(212,175,55,.9), transparent 65%);
+      border-radius:40px;z-index:-1}
+    .section{padding:72px 0}
+    .card{background:#fff;border:1px solid #e9edf4;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+    .grid{display:grid;gap:24px}
+    .about .grid{grid-template-columns:1.2fr .8fr}
+    .organizers{display:grid;gap:16px;grid-template-columns:repeat(3,1fr)}
+    .avatar{display:grid;place-items:center;height:104px;border-radius:14px;background:linear-gradient(135deg,var(--azure),var(--azure-700));color:#fff;font-size:28px;font-weight:900}
+    .tag{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--azure-50);color:var(--azure-700);font-weight:700;border:1px solid #d9eef9}
+    .note{color:var(--muted)}
+    .list{margin:0;padding-left:18px}
+    footer{padding:36px 0;border-top:1px solid #eef2f7}
+    @media (max-width: 980px){.hero .wrap,.about .grid{grid-template-columns:1fr}.organizers{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><span class="mark"></span><span>Festival della <span style="background:linear-gradient(90deg,var(--gold),var(--azure));-webkit-background-clip:text;background-clip:text;color:transparent">Wallera</span></span></div>
+      <nav>
+        <a class="btn btn--ghost" href="#presentazione">Presentazione</a>
+        <a class="btn btn--ghost" href="#organizzazione">Organizzazione</a>
+        <a class="btn btn--gold" href="#contatti">Contatti</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="presentazione">
+    <div class="blob" aria-hidden="true"></div>
+    <div class="container wrap">
+      <div>
+        <span class="badge"><span class="dot"></span> Prima edizione · Internazionale · Roma · Via Maria Bice Valori 10, int. C2</span> Prima edizione · Internazionale</span>
+        <h1 class="title" style="margin:.6rem 0 0">Il cinema autentico per disadattati</h1>
+        <p class="subtitle">Benvenuti al <b>Primo Festival del Cinema Internazionale della Wallera</b>: la Wallera è arte, slang e filosofia — <b>amore e comunione</b>, un <i>culto segreto</i> che trasforma il disagio in arte. Corti <b>surreali</b>, ironia grottesca, nonsense e una punta di nichilismo.</p>
+        <div style="margin-top:14px"><a class="btn btn--gold" href="#organizzazione">Conosci i fondatori</a></div>
+      </div>
+      <div class="card">
+        <h2 style="margin-top:0">Breve presentazione</h2>
+        <p>Fondato da tre portatori di Wallera — <b>O’Mariuol</b>, <b>O’ Puparuol</b> e <b>O’ Cocomerett</b> — il Festival celebra film coraggiosi, storie laterali e il <i>genio improvvisato</i> che solo chi conosce la Wallera riconosce al volo.</p>
+        <p>Uniti dall’<b>odio per la società capitalista</b> e dal desiderio di fuga — tramite sogni, festival metafisici e rispetto per Luigi — i tre hanno consegnato alla città un rito laico: proiezioni brevi, applausi lunghi, premi con nomi discutibili e orgogliosamente memorabili.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="organizzazione" class="section about">
+    <div class="container">
+      <span class="tag">I Fondatori</span>
+      <h2 class="title" style="margin:.4rem 0 1rem">O’Mariuol · O’ Puparuol · O’ Cocomerett</h2>
+      <div class="grid">
+        <div class="card">
+          <h3 style="margin-top:0">La nostra filosofia</h3>
+          <p class="note">Tre teste, una Wallera. Cinema indipendente, satira grottesca, ospitalità rumorosa.</p>
+          <ul class="list">
+            <li><b>O’Mariuol</b> — Direttore delle operazioni creative (e delle scuse ufficiali). Maestro dei piani B, C e D.</li>
+            <li><b>O’ Puparuol</b> — Curatore artistico vulcanico. Programma corti surreali che bruciano lento e lasciano aroma (madonna che fezza l'AI per fare descrizioni).</li>
+            <li><b>O’ Cocomerett</b> — Ambasciatore del pubblico felice. Divide i problemi a metà e serve soluzioni fresche.</li>
+          </ul>
+        </div>
+        <aside class="card">
+          <h3 style="margin-top:0">Premi & rituali</h3>
+          <ul class="list">
+            <li><b>Wallera d’oro</b> — Miglior cortometraggio.</li>
+            <li><b>Premi a sorpresa</b> — Rivelati durante la serata (perché la Wallera ama i colpi di scena).</li>
+          </ul>
+          <h4>Info pratiche</h4>
+          <ul class="list">
+            <li><b>Luogo</b>: Via Maria Bice Valori 10, int. C2 — Roma.</li>
+            <li><b>Lingue</b>: ITA / Napoletano <b>50 · 50</b>.</li>
+            <li><b>Genere</b>: corti surreali (no sezioni parallele).</li>
+            <li><b>Dress code</b>: formale <i>oppure</i> sacco di iuta. Dettagli bizzarri apprezzati.</li>
+            <li><b>Bevande</b>: Zumo de Wallera. Cibo: <i>TBA</i>.</li>
+            <li><b>Pubblico</b>: mentecatti, disagiati e geni incompresi.</li>
+            <li><b>Gag ricorrenti</b>: Maradona, “aeramadonna di Capololonna” (cit.), Mammta.</li>
+          </ul>
+          <h4>Patrocini & sponsor (lore)</h4>
+          <p class="note">Maradona · Blatte · Mammta · Grande Wallera Araba (GWA)</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti" class="section">
+    <div class="container">
+      <div class="card" style="display:grid;gap:12px">
+        <h3 style="margin:0">Contatti</h3>
+        <p class="note">Email: <a href="mailto:info@festivalwallera.example">info@wallera.eue</a> · Social: @festivalwallera</p>
+        <a class="btn btn--gold" href="#presentazione">Torna su</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <p class="note">©️<span id="year"></span> Festival del Cinema Internazionale della Wallera</p>
+      <p class="note">Palette: oro · azzurro · bianco</p>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+</body>
+</html>
