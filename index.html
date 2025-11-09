@@ -3,8 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Festival del Cinema Internazionale della Wallera · Presentazione</title>
-  <meta name="description" content="Pagina di presentazione ufficiale del primo Festival del Cinema Internazionale della Wallera. Ironia, cinema e oro-azzurro-bianco." />
+
+  <!-- SEO -->
+  <title>Primo Festival del Cinema Internazionale della Wallera – Roma | 15 novembre 2025</title>
+  <meta name="description" content="Il cinema autentico per disadattati. Corti surreali, ironia grottesca e culto segreto della Wallera. Roma, Via Maria Bice Valori 10 int. C2 – 15 novembre 2025. Biglietti gratuiti." />
+
+  <!-- Open Graph / Twitter (locandina come anteprima) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Primo Festival della Wallera – 15 novembre 2025 (Roma)" />
+  <meta property="og:description" content="Corti surreali, grottesco e nonsense. Biglietti gratuiti. Join the Wallera." />
+  <meta property="og:image" content="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
+  <meta property="og:image:alt" content="Locandina 'Join the Wallera' – Primo Festival del Cinema Internazionale della Wallera" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Primo Festival della Wallera – Roma | 15.11.2025" />
+  <meta name="twitter:description" content="Il cinema autentico per disadattati. Biglietti gratuiti." />
+  <meta name="twitter:image" content="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
+  <link rel="image_src" href="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5" />
+
   <style>
     :root{
       --gold:#D4AF37; --gold-700:#B9931F; --azure:#2EA9DF; --azure-700:#1C84B0; --azure-50:#E9F6FD; --ink:#0F172A;
@@ -19,7 +34,7 @@
     .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
     .brand{display:flex;gap:12px;align-items:center;font-weight:800}
     .mark{width:30px;height:30px;border-radius:10px;background:conic-gradient(from 200deg, var(--gold), var(--gold-700));outline:2px solid rgba(212,175,55,.25)}
-    .btn{display:inline-block;padding:12px 18px;border-radius:999px;border:2px solid transparent;font-weight:800;transition:.25s}
+    .btn{display:inline-block;padding:12px 18px;border-radius:999px;border:2px solid transparent;font-weight:800;transition:.25s;cursor:pointer}
     .btn--gold{background:linear-gradient(135deg,var(--gold),var(--gold-700));color:#1a1a1a;box-shadow:0 6px 18px rgba(212,175,55,.35)}
     .btn--ghost{border-color:#e8eef5}
     .hero{position:relative;overflow:hidden;border-bottom:1px solid #eaf2f9}
@@ -41,16 +56,35 @@
     .tag{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--azure-50);color:var(--azure-700);font-weight:700;border:1px solid #d9eef9}
     .note{color:var(--muted)}
     .list{margin:0;padding-left:18px}
+    /* Tickets */
+    .tickets .grid{grid-template-columns:1fr 1fr}
+    .price-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:linear-gradient(135deg,var(--gold),var(--gold-700));color:#1a1a1a;font-weight:900}
     footer{padding:36px 0;border-top:1px solid #eef2f7}
-    @media (max-width: 980px){.hero .wrap,.about .grid{grid-template-columns:1fr}.organizers{grid-template-columns:1fr}}
+    @media (max-width: 980px){
+      .hero .wrap,.about .grid,.tickets .grid{grid-template-columns:1fr}
+      .organizers{grid-template-columns:1fr}
+    }
+
+    /* Modal popup + animazione */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);z-index:9999}
+    .modal.open{display:flex}
+    .modal-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:28px 32px;max-width:440px;margin:16px;border:1px solid #e9edf4;text-align:center}
+    .modal-card h3{margin:0 0 6px 0}
+    .modal-card .close{margin-top:12px}
+    .spin{display:inline-block;width:42px;height:42px;margin-bottom:12px;animation:spin 1.4s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
+  <!-- AUDIO: carica al primo click/tap per evitare blocchi autoplay -->
+  <audio id="anthem" preload="none"></audio>
+
   <header>
     <div class="container nav">
       <div class="brand"><span class="mark"></span><span>Festival della <span style="background:linear-gradient(90deg,var(--gold),var(--azure));-webkit-background-clip:text;background-clip:text;color:transparent">Wallera</span></span></div>
       <nav>
         <a class="btn btn--ghost" href="#presentazione">Presentazione</a>
+        <a class="btn btn--ghost" href="#biglietti">Biglietti</a>
         <a class="btn btn--ghost" href="#organizzazione">Organizzazione</a>
         <a class="btn btn--gold" href="#contatti">Contatti</a>
       </nav>
@@ -61,15 +95,68 @@
     <div class="blob" aria-hidden="true"></div>
     <div class="container wrap">
       <div>
-        <span class="badge"><span class="dot"></span> Prima edizione · Internazionale · Roma · Via Maria Bice Valori 10, int. C2</span> Prima edizione · Internazionale</span>
+        <span class="badge"><span class="dot"></span> Prima edizione · Internazionale · Roma · Via Maria Bice Valori 10, int. C2</span>
         <h1 class="title" style="margin:.6rem 0 0">Il cinema autentico per disadattati</h1>
         <p class="subtitle">Benvenuti al <b>Primo Festival del Cinema Internazionale della Wallera</b>: la Wallera è arte, slang e filosofia — <b>amore e comunione</b>, un <i>culto segreto</i> che trasforma il disagio in arte. Corti <b>surreali</b>, ironia grottesca, nonsense e una punta di nichilismo.</p>
-        <div style="margin-top:14px"><a class="btn btn--gold" href="#organizzazione">Conosci i fondatori</a></div>
+        <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn--gold" href="#biglietti">Biglietti gratuiti</a>
+          <a class="btn btn--ghost" href="#organizzazione">Conosci i fondatori</a>
+        </div>
       </div>
       <div class="card">
         <h2 style="margin-top:0">Breve presentazione</h2>
         <p>Fondato da tre portatori di Wallera — <b>O’Mariuol</b>, <b>O’ Puparuol</b> e <b>O’ Cocomerett</b> — il Festival celebra film coraggiosi, storie laterali e il <i>genio improvvisato</i> che solo chi conosce la Wallera riconosce al volo.</p>
-        <p>Uniti dall’<b>odio per la società capitalista</b> e dal desiderio di fuga — tramite sogni, festival metafisici e rispetto per Luigi — i tre hanno consegnato alla città un rito laico: proiezioni brevi, applausi lunghi, premi con nomi discutibili e orgogliosamente memorabili.</p>
+        <p>Uniti dall’<b>odio per la società capitalista</b> e dal desiderio di fuga — tramite sogni e festival metafisici — i tre hanno consegnato alla città un rito laico: proiezioni brevi, applausi lunghi, premi con nomi discutibili e orgogliosamente memorabili.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIGLIETTI GRATUITI -->
+  <section id="biglietti" class="section tickets">
+    <div class="container">
+      <span class="tag">Ingresso</span>
+      <h2 class="title" style="margin:.4rem 0 1rem">Biglietti gratuiti · Sabato 15 novembre 2025</h2>
+      <div class="grid">
+        <div class="card">
+          <h3 style="margin-top:0">Come funziona</h3>
+          <p class="note">Posti limitati. Prenota il tuo ingresso gratuito: riceverai conferma via email con orario e indicazioni pratiche.</p>
+          <div class="price-badge">€ 0 · Free Entry</div>
+          <ul class="list" style="margin-top:12px">
+            <li><b>Luogo</b>: Via Maria Bice Valori 10, int. C2 — Roma</li>
+            <li><b>Lingue</b>: ITA / Napoletano 50·50</li>
+            <li><b>Dress code</b>: formale oppure sacco di iuta (dettagli bizzarri benvenuti)</li>
+          </ul>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn btn--gold" href="mailto:info@wallera.eu?subject=Prenotazione%20Biglietto%20Gratuito%20–%20Festival%20Wallera&amp;body=Nome%3A%20%0ACognome%3A%20%0AEmail%3A%20%0AQt%C3%A0%20biglietti%3A%201%0ANote%3A%20">Prenota via email</a>
+            <a class="btn btn--ghost" href="#presentazione">Dettagli evento</a>
+          </div>
+        </div>
+        <form class="card" action="mailto:info@wallera.eu" method="post" enctype="text/plain">
+          <h3 style="margin-top:0">Prenota ora (form rapido)</h3>
+          <label>Nome e cognome<br><input name="Nome" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
+          <label>Email<br><input type="email" name="Email" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
+          <label>Quanti biglietti?<br>
+            <select name="Biglietti" style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px">
+              <option>1</option><option>2</option><option>3</option>
+            </select>
+          </label><br><br>
+          <label>Note<br><textarea name="Note" rows="4" style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></textarea></label><br><br>
+          <button class="btn btn--gold" type="submit">Invia prenotazione</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCANDINA (prima dei fondatori) -->
+  <section id="locandina" class="section">
+    <div class="container">
+      <span class="tag">Locandina ufficiale</span>
+      <h2 class="title" style="margin:.4rem 0 1rem">Join the Wallera</h2>
+      <div class="card">
+        <img id="poster" referrerpolicy="no-referrer"
+             src="https://drive.google.com/uc?export=view&amp;id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5"
+             alt="Locandina 'Join the Wallera' – Primo Festival del Cinema Internazionale della Wallera"
+             onerror="this.onerror=null;this.src='https://drive.google.com/thumbnail?id=11sNamht8Ot5SN9BpRlyWnwItMJHTsZK5&amp;sz=w2000';" />
       </div>
     </div>
   </section>
@@ -84,7 +171,7 @@
           <p class="note">Tre teste, una Wallera. Cinema indipendente, satira grottesca, ospitalità rumorosa.</p>
           <ul class="list">
             <li><b>O’Mariuol</b> — Direttore delle operazioni creative (e delle scuse ufficiali). Maestro dei piani B, C e D.</li>
-            <li><b>O’ Puparuol</b> — Curatore artistico vulcanico. Programma corti surreali che bruciano lento e lasciano aroma (madonna che fezza l'AI per fare descrizioni).</li>
+            <li><b>O’ Puparuol</b> — Curatore artistico vulcanico. Programma corti surreali che bruciano lento e lasciano aroma.</li>
             <li><b>O’ Cocomerett</b> — Ambasciatore del pubblico felice. Divide i problemi a metà e serve soluzioni fresche.</li>
           </ul>
         </div>
@@ -92,7 +179,7 @@
           <h3 style="margin-top:0">Premi & rituali</h3>
           <ul class="list">
             <li><b>Wallera d’oro</b> — Miglior cortometraggio.</li>
-            <li><b>Premi a sorpresa</b> — Rivelati durante la serata (perché la Wallera ama i colpi di scena).</li>
+            <li><b>Premi a sorpresa</b> — Rivelati durante la serata (la Wallera ama i colpi di scena).</li>
           </ul>
           <h4>Info pratiche</h4>
           <ul class="list">
@@ -115,7 +202,7 @@
     <div class="container">
       <div class="card" style="display:grid;gap:12px">
         <h3 style="margin:0">Contatti</h3>
-        <p class="note">Email: <a href="mailto:info@festivalwallera.example">info@wallera.eu</a> · Social: @festivalwallera</p>
+        <p class="note">Email: <a href="mailto:info@wallera.eu">info@wallera.eu</a> · Social: @festivalwallera</p>
         <a class="btn btn--gold" href="#presentazione">Torna su</a>
       </div>
     </div>
@@ -124,10 +211,181 @@
   <footer>
     <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <p class="note">©️<span id="year"></span> Festival del Cinema Internazionale della Wallera</p>
-      <p class="note">Palette: oro · azzurro · bianco</p>
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+  <!-- Secret -->
+  <template id="codice-segreto" hidden>
+<pre>
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                                                                        
+                                                    .::----::..                                         
+                                                 .:---::-=-:::::.                                       
+                                               ...::+%@%%#%#%#=:--.                                     
+                                              ...:#@@#--==--:-%@=::.                                    
+                                             .::#@@%+-:::.::--:%@=.:.                                   
+                                            .:*%#@@#:.     ..=:=@@-.:                                   
+                                           .:-##@%@*:.      .-=-%@%.:.                                  
+                                           :-#@@#*%@*-.    :-*-:#@@.:.                                  
+                                           :+%@%%@%@@%=:::--#@@=-+@*::                                  
+                                          .:#@#%%%%@##%@%@@@@%%+--@%.:                                  
+                                          :*%%%@%#*--#@%#@@*+*.+--*@.:                                  
+                                         .:#@#%@%#++*%@#-#%*:+:-:--@::                                  
+                                         .+%%#%@%%%*=##=:*+-:-+*:-:@::                                  
+                                         .#@%+%%#%%++##=-#=---#%--:@::                                  
+                                         :*@%-@%%@%*##*=+@++#-#++--@-:                                  
+                                        .+%@#:@##@%#@#***@+**=#-#:-@-:                                  
+                                        :%@@*-@@%%*#@#***%*#+=*-%:-%--                                  
+                                       .:%@%=-%%#%**@*=*+**#+=*=#--@--                                  
+                                       :*%@#-*%#@#=+%+:++**#====%=-@--.                                 
+                                      .:+@#+:#%#%+-#%=:++++#=*++%=-@--:                                 
+                                     ::-*@#-:%@#*--%#--#*+=#=+=+#++@---                                 
+                                    :::-%*::+%###==%*--##*++==-#*+-+#--.                                 
+                                   :::+%%=:.##*%+:=++--+#+*++:-#--*:@---                                 
+                                  .::-*@*::=+%*%==%*=--*#=+==:-==-:+%:--.                               
+                                 .:::=%#=:.***#+-=**=+++%+*--+--#-:*@*---.                              
+                               .::::=##=:.*%%+#*-=+*+#==*=+=-++--=.-*%.---                              
+                              .::.-=*#+..+#%=*#*-=+=*%-=+--*::%*#%-:=*..--:                             
+                             .:::==%#- .=#*+=%%++++*%+:--=-##*#%%@@*=--.:--:                            
+                            .::--=##=::*@#%=#@@@*+*%*----*=#@@@@%@@@@+=.:---:                            > 
+                           .:.%@@++-:-%@=@#@@@@#+=#%#=---%@@@@##@@@@@#:..----:                          
+                          ...=@*+=-:*@@#@@#++*##-+#%+==:*@@@@@@@@@@@@@#: .----.                         
+                        .::.::+*+=**@@@@@@@#%@%==*%%*+-+%@@@@@%%@@@@@@** .-----                         
+                        ::. :-*=@#@@@@@@@@@@@%+-=#%#+-*%%+==%@@@@@@@@@@#..-----:                        
+                       .:. ::**@@@@%@@@%%@@@@%--+#++==+**++==*#%@%@%%%@@-:------.                       
+                      .:.. -*@@%#@#*#@*##%@@@#--=#*--=**+=-==-=##%%%#@#@*=------:                       
+                     .::...*@@@@**+:-==-#%@@@%=-+%*--=+--::::::*%%%@@@%@@*-------.                      
+                    .::::-#%@@**=::....:%%@@@%+-=#+--=+-::....:*%@@#@%#*@@-------.                      
+                    .:::-+#%*-::::..  .*#@@@@#=-=#*--===:::::.:-#%*%*%@=*@+------:                      
+                   .::::-*-::...::.:-++%##@@@@+-=#*--==--::::.:+#@@%@@@**#%-=----:                      
+                   .:::--+-:...::::-=+**+@@@@#---+*==++---:::-+#%%%%@@*@@#*=----=-.                     
+                   :::--*-::...:-:---=##@@@%#+--=====+*+--:::-*%#%@@%@@@@#=*----=-.                     
+                  .--:--=-=-::.:::+**#%@@@@@%+--=====+++=-:::-==+#%=@@#@@#++----=-.                     
+                  .-::-=+**--::::-=#+%#@#@@%*---=+====+*=-::+=-+++**##@@@**-------.                     
+                  .-::-=+*#=::::::*+=#+@###*=---==--=++**=----++%@%%%%@*+=*=-----:                      
+                  .::::--+%=--:::---=--*#==+-------==-=+=-::--+*#++*%+=+==-------:                      
+                  .:::::-+----::::::--:-+=------==---------::-==-+#+------------:.                      
+                  .....:::::::::::::::::------------------:::::------------:----:.                      
+                   .....:::.::::....::::--------=-------::::..::-:---------:---::                       
+                   .....:::.:::::....:::----------------::::..:::::----:-------:.                       
+                   .....:.........:..:::----------------::::.:::::--:--:-------:                        
+                    .......::......:.:::------------------:::.:::::-----------:.                        
+                    .....::::::::...:::-------------------::..:::------------:.                         
+                     ....:::::::::::::---------=-----------::::--------------.                          
+                      .....::::::::----------=++==+=------------------------.                           
+                       .::::::::::-:-------==+#####*+=--------------------:                             
+                        .:::--------------=+*+======**=------------------:                              
+                          :-------------=*#*==========+++==------------:                                
+                            .:--====++***+++++++=========+++++++++==-.                                  
+                               ..::-===----::::.......:::::::---::.                                     
+</pre>
+  </template>
+
+  <!-- Modal -->
+  <div id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popup-title" aria-hidden="true">
+    <div class="modal-card">
+      <svg class="spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2l2.2 5.3L20 8l-4 3.7L17 18l-5-2.6L7 18l1-6.3L4 8l5.8-.7L12 2z" stroke="url(#g)" stroke-width="1.4" fill="none"/>
+        <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#D4AF37"/><stop offset="1" stop-color="#B9931F"/></linearGradient></defs>
+      </svg>
+      <h3 id="popup-title">Wallera dice…</h3>
+      <p id="popup-text" style="font-weight:800;font-size:20px;margin:0"></p>
+      <button class="btn btn--gold close" type="button">Ok</button>
+    </div>
+  </div>
+
+  <script>
+    // anno footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // AUDIO: carica e suona al primo gesto, con fade-in
+    (function () {
+      const anthem = document.getElementById('anthem');
+      const SRC = "https://drive.usercontent.google.com/uc?id=1Ux5e34uux3o2p_AhlfV4est8inK74r1X&export=download";
+      let armed = true;
+
+      async function ensurePlay() {
+          window.ensureWalleraAudio = ensurePlay;
+        if (!armed) return;
+        armed = false;
+        try {
+          anthem.src = SRC;          // assegna la sorgente solo ora
+          anthem.volume = 0;         // parte muto
+          await anthem.play();       // tenta play (ora c'è interazione)
+          // fade-in volume
+          const step = 0.05;
+          const iv = setInterval(()=>{
+            anthem.volume = Math.min(1, anthem.volume + step);
+            if (anthem.volume >= 1) clearInterval(iv);
+          }, 120);
+        } catch(e) {
+          armed = true;              // riproverà al prossimo click
+        }
+      }
+
+      // Sblocca al primo click/tap o quando si apre il popup
+      const unlock = () => ensurePlay();
+      window.addEventListener('click', unlock, { once:true });
+      window.addEventListener('touchstart', unlock, { once:true });
+      document.addEventListener('popup-open', unlock, { once:true });
+    })();
+
+    // Popup rotante per tutti i bottoni/link .btn e per i form submit
+    (function () {
+      const phrases = [
+        "Mammta",
+        "Fozza Napule",
+        "Mannacc'a Maradona",
+        "Maronn, par'a wallera"
+      ];
+      let i = 0;
+      const modal = document.getElementById('popup');
+      const text = document.getElementById('popup-text');
+
+      function openModal() {
+        text.textContent = phrases[i % phrases.length];
+        i++;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        // evento per sbloccare l'audio
+        document.dispatchEvent(new Event('popup-open'));
+      }
+      function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('close')) closeModal();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+      // Intercetta tutti i bottoni/link .btn
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('.btn');
+  if (el) {
+    e.preventDefault();
+    e.stopPropagation();
+    // sblocca l'audio direttamente sul gesto dell'utente
+    if (window.ensureWalleraAudio) window.ensureWalleraAudio();
+    openModal();
+  }
+});
+      // Intercetta submit dei form
+      document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
+    })();
+  </script>
 </body>
 </html>
