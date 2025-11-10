@@ -308,14 +308,15 @@
   </script>
 
   // AUDIO: autoplay MUTED, unmute + fade-in al primo gesto o click sul badge
- <script>
+<script>
 (function () {
   const anthem = document.getElementById('anthem');
   const badge  = document.getElementById('audio-badge');
   if (!anthem) return;
 
-  function fadeIn(){
-    try { anthem.volume = 0; } catch(e){}
+  let started = false;   // ← flag: audio già avviato e “sbloccato”
+
+  function fadeInOnce() {
     let v = 0;
     const iv = setInterval(() => {
       v = Math.min(1, v + 0.06);
@@ -324,47 +325,37 @@
     }, 120);
   }
 
-  // ✅ FIX cross-browser: forziamo una sequenza *user-gesture safe*
-  async function startAudio(){
+  async function startAudio() {
+    // se è già partito/sta suonando, esci subito
+    if (started || (!anthem.paused && !anthem.muted)) return;
+
     try {
-      // se per caso non ha ancora una src caricata, riassegnala per sicurezza
-      if (!anthem.src) anthem.src = "/o-wallera-d-oro.mp3";
-
-      anthem.muted = false;              // togli muto
-      // sequenza robusta: pausa → riposiziona → play (dentro il gesto)
-      try { anthem.pause(); } catch(e){}
-      try { anthem.currentTime = 0; } catch(e){}
-      await anthem.play();
-
+      anthem.muted = false;
+      if (anthem.paused) await anthem.play();
+      started = true;
       if (badge) badge.classList.add('hidden');
-      fadeIn();
-      console.log('[Wallera] audio playing');
-    } catch(e){
+      fadeInOnce();
+    } catch (e) {
       console.debug('[Wallera] play bloccato:', e);
     }
   }
 
-  // badge + primo gesto
-  if (badge) badge.addEventListener('click', startAudio, { passive:true });
-  document.addEventListener('pointerdown', () => startAudio(), { once:true });
+  // sblocco iniziale: badge + primo gesto
+  if (badge) badge.addEventListener('click', startAudio, { passive:true, once:true });
+  document.addEventListener('pointerdown', startAudio, { once:true });
 
-  // esponi per popup/bottoni
+  // esponi per popup/bottoni (ulteriori chiamate non riavviano grazie al flag)
   window.ensureWalleraAudio = startAudio;
 
-  // nascondi badge quando parte
   anthem.addEventListener('playing', () => { if (badge) badge.classList.add('hidden'); });
-
-  // 🔎 mini logger utile in DevTools
-  ['loadstart','loadedmetadata','canplay','canplaythrough','play','playing','pause','stalled','suspend','error','volumechange']
-    .forEach(ev => anthem.addEventListener(ev, () => console.log('[Wallera]', ev, anthem.readyState, anthem.error || '')));
-
 })();
 </script>
+
   
 <script>
   // POPUP + intercetta .btn e submit
   (function () {
-    const phrases = ["Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera"];
+    const phrases = ["Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera, "Mammeta sfaccimm", "Ma ti pare che puoi prenotare da wallera.eu?"", "È inutile che clicchi, uagliò", "Aeramadonna greca", "A bucchin e mammeta"];
     let i = 0;
     const modal = document.getElementById('popup');
     const text  = document.getElementById('popup-text');
