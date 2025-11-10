@@ -352,44 +352,53 @@
 </script>
 
   
-<script>
+
   // POPUP + intercetta .btn e submit
-  (function () {
-    const phrases = [
-  "Mammta",
-  "Fozza Napule",
-  "Mannacc'a Maradona",
-  "Maronn, par'a wallera",
-  "Mammeta sfaccimm",
-  "Ma ti pare che puoi prenotare da wallera.eu?",
-  "È inutile che clicchi, uagliò",
-  "Aeramadonna greca",
-  "A bucchin e mammeta"
-];
-    let i = 0;
-    const modal = document.getElementById('popup');
-    const text  = document.getElementById('popup-text');
+<script>
+(function () {
+  const phrases = [
+    "Mammta","Fozza Napule","Mannacc'a Maradona","Maronn, par'a wallera",
+    "Mammeta sfaccimm","Ma ti pare che puoi prenotare da wallera.eu?",
+    "È inutile che clicchi, uagliò","Aeramadonna greca","A bucchin e mammeta"
+  ];
+  let i = 0;
+  const modal = document.getElementById('popup');
+  const text  = document.getElementById('popup-text');
 
-    function openModal(){
-      text.textContent = phrases[i % phrases.length]; i++;
-      modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
-      if (window.ensureWalleraAudio) window.ensureWalleraAudio(); // sblocca audio
-    }
-    function closeModal(){
-      modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
-    }
+  function openModal() {
+    text.textContent = phrases[i % phrases.length]; i++;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    if (window.ensureWalleraAudio) window.ensureWalleraAudio();
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+  }
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal || e.target.classList.contains('close')) closeModal();
-    });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  // chiudi cliccando fuori o sul bottone .close
+  modal.addEventListener('click', (e) => {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    if (t === modal || t.classList.contains('close')) closeModal();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-    document.addEventListener('click', (e) => {
-      const el = e.target.closest('.btn');
-      if (el){ e.preventDefault(); e.stopPropagation(); openModal(); }
-    });
-    document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
-  })();
+  // Delegato globale: apre SOLO se il click è su .btn e NON dentro il popup
+  document.addEventListener('click', (e) => {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    if (t.closest('#popup')) return;                   // ← ignora click dentro il popup
+    const el = t.closest('a.btn, button.btn');         // ← solo i bottoni/link del sito
+    if (!el) return;
+    e.preventDefault();
+    e.stopPropagation();
+    openModal();
+  }, { passive: false });
+
+  // Ferma i submit veri (se mai arriveranno)
+  document.addEventListener('submit', (e) => { e.preventDefault(); openModal(); });
+})();
 </script>
 
 </body>
