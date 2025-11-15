@@ -199,6 +199,50 @@
   </div>
 </section>
 
+<script>
+(function () {
+  const anthem = document.getElementById('anthem');
+  const toggle = document.getElementById('audio-toggle');
+  const live   = document.getElementById('live'); // sezione con l'embed Twitch
+  if (!anthem || !toggle) return;
+
+  function setLabel() {
+    toggle.textContent = anthem.paused ? '🔈 Riattiva sottofondo' : '🔇 Stop sottofondo';
+    toggle.setAttribute('aria-pressed', anthem.paused ? 'false' : 'true');
+  }
+
+  // Toggle manuale
+  toggle.addEventListener('click', async () => {
+    try {
+      if (anthem.paused) {
+        // riattiva senza resettare currentTime
+        if (window.ensureWalleraAudio) await window.ensureWalleraAudio();
+        else await anthem.play();
+      } else {
+        anthem.pause();
+      }
+    } catch (e) { console.debug('[Wallera] toggle audio:', e); }
+    setLabel();
+  });
+
+  // Auto-stop: se l’utente interagisce con l’area live (per ascoltare la diretta), pausa il sottofondo
+  if (live) {
+    live.addEventListener('pointerdown', () => {
+      if (!anthem.paused) {
+        anthem.pause();
+        setLabel();
+      }
+    });
+  }
+
+  // Se parte per altri motivi (badge / primo gesto), aggiorna il label
+  anthem.addEventListener('playing', setLabel);
+  anthem.addEventListener('pause',   setLabel);
+
+  setLabel();
+})();
+</script>
+  
 
   
 
