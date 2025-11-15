@@ -107,41 +107,7 @@
     </div>
   </section>
 
-  <!-- BIGLIETTI GRATUITI -->
-  <section id="biglietti" class="section tickets">
-    <div class="container">
-      <span class="tag">Ingresso</span>
-      <h2 class="title" style="margin:.4rem 0 1rem">Biglietti gratuiti · Sabato 15 novembre 2025</h2>
-      <div class="grid">
-        <div class="card">
-          <h3 style="margin-top:0">Come funziona</h3>
-          <p class="note">Posti limitati. Prenota il tuo ingresso gratuito: riceverai conferma via email con orario e indicazioni pratiche.</p>
-          <div class="price-badge">€ 0 · Free Entry</div>
-          <ul class="list" style="margin-top:12px">
-            <li><b>Luogo</b>: Via Maria Bice Valori 10, int. C2 — Roma</li>
-            <li><b>Lingue</b>: ITA / Napoletano 50·50</li>
-            <li><b>Dress code</b>: formale oppure sacco di iuta (dettagli bizzarri benvenuti)</li>
-          </ul>
-          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-            <a class="btn btn--gold" href="#presentazione">Prenota via email</a>
-            <a class="btn btn--ghost" href="#presentazione">Dettagli evento</a>
-          </div>
-        </div>
-        <form class="card" action="#" method="post">
-          <h3 style="margin-top:0">Prenota ora (form rapido)</h3>
-          <label>Nome e cognome<br><input name="Nome" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
-          <label>Email<br><input type="email" name="Email" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
-          <label>Quanti biglietti?<br>
-            <select name="Biglietti" style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px">
-              <option>1</option><option>2</option><option>3</option>
-            </select>
-          </label><br><br>
-          <label>Note<br><textarea name="Note" rows="4" style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></textarea></label><br><br>
-          <button class="btn btn--gold" type="submit">Invia prenotazione</button>
-        </form>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- LOCANDINA (prima dei fondatori) -->
   <section id="locandina" class="section">
@@ -194,6 +160,93 @@
     </div>
   </section>
 
+<section id="live" class="section">
+  <div class="container">
+    <span class="tag">Live</span>
+    <h2 class="title" style="margin:.4rem 0 1rem">Segui l'evento in diretta!</h2>
+    <p class="subtitle">Collegati dalle <b>21:00</b> per seguire la serata su Twitch.</p>
+
+<!-- DIRETTA -->
+    
+    <div class="card">
+      <div class="embed-16x9">
+        <!-- Twitch embed -->
+        <iframe
+          src="https://player.twitch.tv/?channel=kneothrus&parent=wallera.eu&muted=false&autoplay=true"
+          frameborder="0" allow="autoplay; picture-in-picture" scrolling="no" allowfullscreen
+          title="Diretta Twitch - kneothrus"></iframe>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn--gold" href="https://www.twitch.tv/kneothrus" target="_blank" rel="noopener">
+          Vai su Twitch (dalle 21:00)
+        </a>
+        <a class="btn btn--ghost" href="#contenuti">Guarda i contenuti passati</a>
+      </div>
+
+      <p class="note" style="margin-top:8px">
+        Se l'embed non si carica, apri direttamente il canale:
+        <a href="https://www.twitch.tv/kneothrus" target="_blank" rel="noopener">twitch.tv/kneothrus</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- ===================== I NOSTRI CONTENUTI ===================== -->
+<section id="contenuti" class="section" style="padding:72px 0">
+  <div class="container" style="width:min(1100px,92vw);margin:0 auto">
+    <span class="tag" style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#E9F6FD;color:#1C84B0;font-weight:700;border:1px solid #d9eef9">Archivio</span>
+    <h2 class="title" style="margin:.4rem 0 1rem;font-size:clamp(32px,3.4vw,48px);line-height:1.15;letter-spacing:-.02em">I nostri contenuti</h2>
+
+    <!-- griglia responsive 3→1 -->
+
+
+      <!-- Card 2 (file locale .mp4 – cambia il src) -->
+      <div class="card" style="background:#fff;border:1px solid #e9edf4;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.08);padding:16px">
+        <h3 style="margin:4px 0 10px 0">Backstage (short)</h3>
+        <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid #e9edf4">
+          <video controls preload="metadata" src="/media/backstage.mp4" style="position:absolute;inset:0;width:100%;height:100%"></video>
+        </div>
+      </div>
+    </div>
+  
+<!-- BIGLIETTI GRATUITI -->
+  <section id="biglietti" class="section tickets">
+    <div class="container">
+      <span class="tag">Ingresso</span>
+      <h2 class="title" style="margin:.4rem 0 1rem">Biglietti gratuiti · Sabato 15 novembre 2025</h2>
+      <div class="grid">
+        <div class="card">
+          <h3 style="margin-top:0">Come funziona</h3>
+          <p class="note">Posti limitati. Prenota il tuo ingresso gratuito: riceverai conferma via email con orario e indicazioni pratiche.</p>
+          <div class="price-badge">€ 0 · Free Entry</div>
+          <ul class="list" style="margin-top:12px">
+            <li><b>Luogo</b>: Via Maria Bice Valori 10, int. C2 — Roma</li>
+            <li><b>Lingue</b>: ITA / Napoletano 50·50</li>
+            <li><b>Dress code</b>: formale oppure sacco di iuta (dettagli bizzarri benvenuti)</li>
+          </ul>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn btn--gold" href="#presentazione">Prenota via email</a>
+            <a class="btn btn--ghost" href="#presentazione">Dettagli evento</a>
+          </div>
+        </div>
+        <form class="card" action="#" method="post">
+          <h3 style="margin-top:0">Prenota ora (form rapido)</h3>
+          <label>Nome e cognome<br><input name="Nome" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
+          <label>Email<br><input type="email" name="Email" required style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></label><br><br>
+          <label>Quanti biglietti?<br>
+            <select name="Biglietti" style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px">
+              <option>1</option><option>2</option><option>3</option>
+            </select>
+          </label><br><br>
+          <label>Note<br><textarea name="Note" rows="4" style="width:100%;padding:12px;border-radius:12px;border:1px solid #e9edf4;margin-top:6px"></textarea></label><br><br>
+          <button class="btn btn--gold" type="submit">Invia prenotazione</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  
   <section id="contatti" class="section">
     <div class="container">
       <div class="card" style="display:grid;gap:12px">
