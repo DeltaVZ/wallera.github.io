@@ -124,7 +124,49 @@
         style="display:block; width:100%; height:100%; border:0;">
       </iframe>
     </div>
+<script>
+(function () {
+  const anthem = document.getElementById('anthem');
+  const toggle = document.getElementById('audio-toggle');
+  const live   = document.getElementById('live'); // sezione con l'embed Twitch
+  if (!anthem || !toggle) return;
 
+  function setLabel() {
+    toggle.textContent = anthem.paused ? '🔈 Riattiva sottofondo' : '🔇 Stop sottofondo';
+    toggle.setAttribute('aria-pressed', anthem.paused ? 'false' : 'true');
+  }
+
+  // Toggle manuale
+  toggle.addEventListener('click', async () => {
+    try {
+      if (anthem.paused) {
+        // riattiva senza resettare currentTime
+        if (window.ensureWalleraAudio) await window.ensureWalleraAudio();
+        else await anthem.play();
+      } else {
+        anthem.pause();
+      }
+    } catch (e) { console.debug('[Wallera] toggle audio:', e); }
+    setLabel();
+  });
+
+  // Auto-stop: se l’utente interagisce con l’area live (per ascoltare la diretta), pausa il sottofondo
+  if (live) {
+    live.addEventListener('pointerdown', () => {
+      if (!anthem.paused) {
+        anthem.pause();
+        setLabel();
+      }
+    });
+  }
+
+  // Se parte per altri motivi (badge / primo gesto), aggiorna il label
+  anthem.addEventListener('playing', setLabel);
+  anthem.addEventListener('pause',   setLabel);
+
+  setLabel();
+})();
+</script>
     <p class="note" style="margin-top:12px">
       Suggerimento: il video parte <b>in muto</b> per rispettare le policy dei browser. Clicca sul player per attivare l’audio.
     </p>
@@ -190,7 +232,7 @@
   <div class="container">
     <span class="tag">Live</span>
     <h2 class="title" style="margin:.4rem 0 1rem">Segui l'evento in diretta!</h2>
-    <p class="subtitle">Collegati dalle <b>21:00</b> per seguire la serata su Twitch.</p>
+    <p class="subtitle">La prossima edizione sarà annunciata al più presto</p>
 
 <!-- DIRETTA -->
     
@@ -269,27 +311,7 @@
   setLabel();
 })();
 </script>
-  
 
-  
-
-  <!-- ===================== I NOSTRI CONTENUTI ===================== -->
-<section id="contenuti" class="section" style="padding:72px 0">
-  <div class="container" style="width:min(1100px,92vw);margin:0 auto">
-    <span class="tag" style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#E9F6FD;color:#1C84B0;font-weight:700;border:1px solid #d9eef9">Archivio</span>
-    <h2 class="title" style="margin:.4rem 0 1rem;font-size:clamp(32px,3.4vw,48px);line-height:1.15;letter-spacing:-.02em">I nostri contenuti</h2>
-
-    <!-- griglia responsive 3→1 -->
-
-
-      <!-- Card 2 (file locale .mp4 – cambia il src) -->
-      <div class="card" style="background:#fff;border:1px solid #e9edf4;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.08);padding:16px">
-        <h3 style="margin:4px 0 10px 0">Backstage (short)</h3>
-        <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid #e9edf4">
-          <video controls preload="metadata" src="/media/backstage.mp4" style="position:absolute;inset:0;width:100%;height:100%"></video>
-        </div>
-      </div>
-    </div>
   
 <!-- BIGLIETTI GRATUITI -->
   <section id="biglietti" class="section tickets">
