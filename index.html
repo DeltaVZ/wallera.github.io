@@ -107,13 +107,23 @@
     </div>
   </section>
 
-  <!-- === I N O S T R I   C O N T E N U T I  –  Playlist YouTube === -->
+<!-- === I N O S T R I   C O N T E N U T I  –  Playlist YouTube + Stop musica === -->
 <section id="contenuti" class="section">
   <div class="container">
     <span class="tag">I nostri contenuti</span>
     <h2 class="title" style="margin:.4rem 0 1rem">Playlist ufficiale del Festival</h2>
 
-    <!-- Wrapper responsive: occupa il 100% della larghezza, mantiene 16:9 -->
+    <!-- Controllo musica di sottofondo -->
+    <div style="margin:12px 0 18px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button id="toggle-bg-audio" class="btn btn--ghost" type="button" aria-pressed="true">
+        🔇 Disattiva musica di sottofondo
+      </button>
+      <a class="btn btn--gold" href="https://www.youtube.com/playlist?list=PLf1Cxoa8C4IhXRTqWZPunXw1THDWSngCG" target="_blank" rel="noopener">
+        Apri la playlist su YouTube
+      </a>
+    </div>
+
+    <!-- Wrapper responsive: 100% width, rapporto 16:9 -->
     <div style="width:100%; aspect-ratio:16/9; border-radius:18px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.08);">
       <iframe
         src="https://www.youtube-nocookie.com/embed/videoseries?list=PLf1Cxoa8C4IhXRTqWZPunXw1THDWSngCG&autoplay=1&mute=1&rel=0&modestbranding=1&color=white&iv_load_policy=3&loop=1"
@@ -124,58 +134,48 @@
         style="display:block; width:100%; height:100%; border:0;">
       </iframe>
     </div>
-<script>
-(function () {
-  const anthem = document.getElementById('anthem');
-  const toggle = document.getElementById('audio-toggle');
-  const live   = document.getElementById('live'); // sezione con l'embed Twitch
-  if (!anthem || !toggle) return;
 
-  function setLabel() {
-    toggle.textContent = anthem.paused ? '🔈 Riattiva sottofondo' : '🔇 Stop sottofondo';
-    toggle.setAttribute('aria-pressed', anthem.paused ? 'false' : 'true');
-  }
-
-  // Toggle manuale
-  toggle.addEventListener('click', async () => {
-    try {
-      if (anthem.paused) {
-        // riattiva senza resettare currentTime
-        if (window.ensureWalleraAudio) await window.ensureWalleraAudio();
-        else await anthem.play();
-      } else {
-        anthem.pause();
-      }
-    } catch (e) { console.debug('[Wallera] toggle audio:', e); }
-    setLabel();
-  });
-
-  // Auto-stop: se l’utente interagisce con l’area live (per ascoltare la diretta), pausa il sottofondo
-  if (live) {
-    live.addEventListener('pointerdown', () => {
-      if (!anthem.paused) {
-        anthem.pause();
-        setLabel();
-      }
-    });
-  }
-
-  // Se parte per altri motivi (badge / primo gesto), aggiorna il label
-  anthem.addEventListener('playing', setLabel);
-  anthem.addEventListener('pause',   setLabel);
-
-  setLabel();
-})();
-</script>
     <p class="note" style="margin-top:12px">
-      Suggerimento: il video parte <b>in muto</b> per rispettare le policy dei browser. Clicca sul player per attivare l’audio.
+      Il player parte <b>in muto</b>. Se attivi l’audio del video, puoi disattivare la musica di sottofondo con il bottone qui sopra.
     </p>
-
-    <div style="margin-top:12px">
-      <a class="btn btn--gold" href="https://www.youtube.com/playlist?list=PLf1Cxoa8C4IhXRTqWZPunXw1THDWSngCG" target="_blank" rel="noopener">Apri la playlist su YouTube</a>
-    </div>
   </div>
+
+  <!-- Script: toggle musica di sottofondo (#anthem) -->
+  <script>
+    (function () {
+      const btn    = document.getElementById('toggle-bg-audio');
+      const anthem = document.getElementById('anthem');        // l'audio di sottofondo già presente nella pagina
+      const badge  = document.getElementById('audio-badge');   // eventuale badge "tocca per audio"
+
+      if (!btn || !anthem) return;
+
+      function setLabel() {
+        const attiva = anthem.paused || anthem.muted;
+        btn.textContent = attiva ? '🔊 Riattiva musica di sottofondo' : '🔇 Disattiva musica di sottofondo';
+        btn.setAttribute('aria-pressed', attiva ? 'false' : 'true');
+      }
+
+      btn.addEventListener('click', async () => {
+        try {
+          if (anthem.paused || anthem.muted) {
+            anthem.muted = false;
+            await anthem.play().catch(() => {});
+            if (badge) badge.classList.add('hidden');
+          } else {
+            anthem.pause();           // pausa (non azzera currentTime → non “riparte da capo”)
+          }
+          setLabel();
+        } catch (e) {
+          console.debug('[BG-Audio]', e);
+        }
+      });
+
+      // stato iniziale coerente
+      setLabel();
+    })();
+  </script>
 </section>
+
 
   <!-- LOCANDINA (prima dei fondatori) -->
   <section id="locandina" class="section">
@@ -240,7 +240,7 @@
       <div class="embed-16x9" style="width:100%;aspect-ratio:16/9;max-height:85vh;">
         <!-- Twitch embed -->
         <iframe
-          src="https://player.twitch.tv/?channel=kneothrus&parent=wallera.eu&muted=false&autoplay=true"
+          src=""
           frameborder="0" allow="autoplay; picture-in-picture" scrolling="no" allowfullscreen
           title="Diretta Twitch - kneothrus" style=" width: 100%; height: 100%;">
           </iframe>
